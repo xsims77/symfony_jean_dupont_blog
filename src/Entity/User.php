@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Impossible de créer un compte avec cette email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -17,13 +19,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
-
+    
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
-
+    
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
-
+    
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+    
     #[ORM\Column]
     private array $roles = [];
 
@@ -39,6 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
 
     public function getId(): ?int
     {
@@ -155,6 +161,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
 
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
         return $this;
     }
 }

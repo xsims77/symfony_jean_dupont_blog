@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        {# Encodage standars des caractères du web #}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Jean Dupont - Inscription</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
+
+        {# Favicon #}
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/favicon/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/favicon/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ asset('assets/favicon/site.webmanifest') }}">
+        <link rel="mask-icon" href="{{ asset('assets/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        {# Bootstrap #}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+        {# Font family #}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lugrasimo&family=Pacifico&family=Poppins&display=swap" rel="stylesheet">
+
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        
+        {# My stylesheet #}
+        {# <link rel="stylesheet" href="{{ asset('assets/styles/app.css') }}"> #}
+
+
+    </head>
+    <body class="h-100">
+
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="{{ asset('images/visitor/registration/Inscrivez-vous-pour-lire-des-articles-sur-la-sante.png') }}" class="img-fluid" alt="Inscrivez-vous pour lire des articles sur la santé">
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                {{ form_start(registrationForm) }}
+                    <div class="mb-3">
+                        <label for="registration_form_firstName">Prénom</label>
+                        {{ form_widget(registrationForm.firstName, {'attr' : {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_form_lastName">Nom</label>
+                        {{ form_widget(registrationForm.lastName, {'attr' : {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_form_email">Email</label>
+                        {{ form_widget(registrationForm.email, {'attr' : {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_form_password_first">Mot de passe</label>
+                        {{ form_widget(registrationForm.password.first, {'attr' : {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_form_password_second">Confirmation du mot de passe</label>
+                        {{ form_widget(registrationForm.password.second, {'attr' : {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration_form_password_agreeTerms">
+                            {{ form_widget(registrationForm.agreeTerms) }}
+                            Veuillez accepter <a data-bs-toggle="modal" data-bs-target="#registerModal" href="#">les conditions générales d'utilisation</a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Les conditions générales d'utilisation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <p>                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa delectus dolore reprehenderit deleniti error deserunt velit excepturi laboriosam ratione molestias voluptatibus ad ullam id, dolorem, odit optio, voluptatum beatae magni.
+                                        Beatae in rem explicabo earum et facilis assumenda dolore! Omnis consequuntur commodi hic non nam ab accusantium explicabo, perspiciatis molestias iure neque odit, repellendus maxime, voluptatum error aperiam repellat expedita?
+                                        Consequuntur necessitatibus, maxime repellat ullam quibusdam quia sed quo optio quisquam. Quam similique repudiandae dolores qui atque. Animi nemo quam dolore adipisci necessitatibus eos molestias vitae, aliquid velit quaerat? Nisi.
+                                        Odio harum, libero cumque deleniti hic quas quia doloribus blanditiis praesentium at culpa deserunt maxime quasi veniam amet accusamus sit nisi ab quos nesciunt dolorum magni. Eum perspiciatis unde praesentium.
+                                        Necessitatibus, eius deleniti incidunt quia sunt temporibus illo beatae ab a quis, ipsa adipisci ipsum culpa maiores rem ea dolores molestias voluptate eum possimus hic obcaecati? Esse voluptatem laboriosam neque!
+                                        Facilis, at, ex qui ut optio neque saepe hic ipsum nihil veritatis dignissimos dolorem reiciendis a odio provident sunt quam consequatur quia. Dolor laboriosam, aut aliquam iusto cumque ut tempore!</p>
+
+                                        <p>Repudiandae reprehenderit voluptatibus, placeat error sint, quo quas recusandae, dicta iste harum corporis labore. Sint, a sequi! Nisi, fugit quae voluptatem accusamus totam similique inventore maiores soluta obcaecati corporis alias?
+                                        Eius, quis. Pariatur ex placeat aut inventore quae animi enim ratione, minima nesciunt nihil numquam similique repellendus asperiores voluptatum odio alias harum tenetur labore perspiciatis sequi? Laudantium vel laborum quidem!
+                                        Dignissimos eius harum reiciendis sapiente tenetur voluptates, iure tempore, quaerat nemo maiores, saepe eum. Iste ex hic consequuntur praesentium porro quibusdam adipisci corrupti iusto accusantium voluptas dolorem cum, doloribus suscipit!
+                                        Ab tempora a, dolorem, blanditiis molestiae asperiores amet inventore quisquam voluptas nihil reiciendis quae ex maxime in aspernatur facere suscipit explicabo rerum consequatur corrupti tempore quo! Exercitationem consectetur nesciunt nostrum?</p>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary w-100 shadow">
+                    </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
