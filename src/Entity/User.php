@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Impossible de créer un compte avec cette email.')]
@@ -28,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
-    
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -40,10 +41,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $verifiedAt = null;
+
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
 
 
     public function getId(): ?int
@@ -145,23 +152,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
-    {
-
-        $this->updatedAt = $updatedAt;
-        return $this;
     }
 
     public function isVerified(): bool
@@ -172,6 +165,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getVerifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->verifiedAt;
+    }
+
+    public function setVerifiedAt(\DateTimeImmutable $verifiedAt): static
+    {
+        $this->verifiedAt = $verifiedAt;
 
         return $this;
     }
