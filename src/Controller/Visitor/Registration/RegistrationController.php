@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +29,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'visitor.registration.register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em): Response
     {
         if ($this->getUser()) 
         {
@@ -46,8 +48,8 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $em->persist($user);
+            $em->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('visitor.registration.email_verification', $user,
@@ -73,7 +75,12 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'visitor.registration.email_verification')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function verifyUserEmail(
+        Request $request, 
+        TranslatorInterface $translator, 
+        UserRepository $userRepository,
+        EntityManagerInterface $em,
+        ): Response
     {
         $id = $request->query->get('id');
 
@@ -91,7 +98,11 @@ class RegistrationController extends AbstractController
         try 
         {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) 
+            $user->setVerifiedAt(new DateTimeImmutable('now'));
+            $em->persist($user);
+            $em->flush();
+        } 
+        catch (VerifyEmailExceptionInterface $exception) 
         {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
