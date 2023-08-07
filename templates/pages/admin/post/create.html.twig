@@ -1,0 +1,26 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}le blog de Jean Dupont - Admin- Nouvel articles{% endblock %}
+
+{% block description %}Le blog de Jean Dupont - Admin - Nouvel articles{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Nouvel article</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                {{form_start(form)}}
+                    <div class="mb-3">
+                        <label for="">Titre</label>
+                        {{form_widget(form.title, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Catégorie</label>
+                        {{form_widget(form.category, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                {{form_end(form)}}
+            </div>
+        </div>
+    </div>
+{% endblock %}
