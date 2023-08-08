@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 
 
-#[UniqueEntity('name', message: "Cette catégorie existe déjà, veuillez en coisir une autre")]
+#[UniqueEntity('name', message: "Cette catégorie existe déjà, veuillez en choisir une autre")]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {

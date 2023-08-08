@@ -1,8 +1,8 @@
 {% extends "themes/base_admin.html.twig" %}
 
-{% block title %}le blog de Jean Dupont - Admin- Nouvel articles{% endblock %}
+{% block title %}le blog de Jean Dupont - Admin- Modifier l'article{% endblock %}
 
-{% block description %}Le blog de Jean Dupont - Admin - Nouvel articles{% endblock %}
+{% block description %}Le blog de Jean Dupont - Admin - Modifier l'article{% endblock %}
 
 {% block tinyMCE %}
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-center my-3 display-5">Nouvel article</h1>
+    <h1 class="text-center my-3 display-5">Modification de l'article</h1>
 
     <div class="container">
         <div class="row">
@@ -30,10 +30,19 @@
                         <div class="text-danger">{{ form_errors(form.category) }}</div>
                         {{form_widget(form.category, {'attr': {'class': 'form-control'}})}}
                     </div>
-                    <div class="mb-3">
-                        <label for="post_form_imageFile">Image</label>
-                        <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
-                        {{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}
+                    <div class="row mb-3">
+                        <div class="col-md-6 text-center">
+                            {% if post.image %}
+                                <img src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('admin_post_thumbnail') }}" alt="{{ post.title }}" width="150" height="150">
+                            {% else %}
+                                <p>Pas d'image disponible</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="post_form_imageFile">Image</label>
+                            <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
+                            {{form_widget(form.imageFile, {'attr': {'class': 'form-control mb-3 mt-1'}})}}
+                        </div>
                     </div>
                     <div class="mb-3">
                     <div class="text-danger">{{ form_errors(form.content) }}</div>
@@ -41,7 +50,7 @@
                         {{form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 10}})}}
                     </div>
                     <div class="mb-3">
-                        <input formnovalidate type="submit" class="btn btn-primary shadaow" value="Sauvegarder"> 
+                        <input formnovalidate type="submit" class="btn btn-primary shadaow" value="Modifier et Sauvegarder"> 
                     </div>
                 {{form_end(form)}}
             </div>
