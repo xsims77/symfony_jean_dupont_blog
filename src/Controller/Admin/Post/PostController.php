@@ -134,13 +134,12 @@ class PostController extends AbstractController
     #[Route('/admin/post/{id}/delete', name: 'admin.post.delete', methods:['DELETE'])]
     public function delete(Post $post, Request $request, EntityManagerInterface $em) : Response
     {
-        if ( $this->isCsrfTokenValid("post_delete_".$post->getId(), $request->request->get('csrf_token')) ) 
+        if ( $this->isCsrfTokenValid("delete_post_" . $post->getId(), $request->request->get('csrf_token'))) 
         {
             $em->remove($post);
             $em->flush();
-
+            
             $this->addFlash("success", "L'article a été supprimé");
-
         }
 
         return $this->redirectToRoute('admin.post.index');

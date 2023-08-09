@@ -64,7 +64,7 @@
                             <td>
                                 <a title="Modifier" href="{{path('admin.category.edit', {'id': category.id})}}" class="btn btn-sm btn-secondary m-1"><i class="fa-solid fa-paintbrush mx-1"></i>Modifier</a>
 
-                                <a onclick="event.preventDefault(); confirm('Confimer la suppression de cette catégorie ?') && document.querySelector('#form_delete_category_{{category.id}}').submit()" title="Supprimer" href="" class="btn btn-sm btn-danger m-1"><i class="fa-solid fa-trash-can mx-1"></i>Supprimer</a>
+                                <a onclick="event.preventDefault(); confirm('Confimer la suppression de cette catégorie ?') && document.querySelector('#form_delete_category_{{category.id}}').submit()" title="Supprimer" href="#" class="btn btn-sm btn-danger m-1"><i class="fa-solid fa-trash-can mx-1"></i>Supprimer</a>
                                 <form method="POST" id="form_delete_category_{{category.id}}" action="{{path('admin.category.delete', {'id': category.id})}}">
                                     <input type="hidden" name="csrf_token" value="{{csrf_token('delete_category_'~category.id)}}">
                                     <input type="hidden" name="_method" value="DELETE">
