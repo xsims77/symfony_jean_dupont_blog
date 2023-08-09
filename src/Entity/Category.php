@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 
 #[UniqueEntity('name', message: "Cette catégorie existe déjà, veuillez en choisir une autre")]
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Entity(repositoryClass: CategoryRepository::class )]
 class Category
 {
     #[ORM\Id]
@@ -49,7 +49,7 @@ class Category
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $posts;
 
     public function __construct()
