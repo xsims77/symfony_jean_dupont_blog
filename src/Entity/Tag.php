@@ -3,8 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
+#[UniqueEntity('name', message: "Ce tag existe déjà, veuillez en choisir un autre.")]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
@@ -13,17 +20,42 @@ class Tag
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank(message: "Le nom est obligatoire")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom du tag ne doit pas dépasser {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: "/^[0-9a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
+        match: true,
+        message: ' Le nom doit contenir uniquement des lettres, des chiffres .',
+    )]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
+
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'tags')]
+    private Collection $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -35,7 +67,7 @@ class Tag
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -59,22 +91,37 @@ class Tag
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
     {
-        $this->updatedAt = $updatedAt;
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->addTag($this);
+        }
 
         return $this;
     }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            $post->removeTag($this);
+        }
+
+        return $this;
+    }
+
+
 }

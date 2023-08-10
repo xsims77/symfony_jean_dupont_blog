@@ -1,0 +1,26 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}le blog de Jean Dupont - Admin- Nouveau tag{% endblock %}
+
+{% block description %}Le blog de Jean Dupont - Admin - Nouveau tag{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Nouveau tag</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                {{form_start(form)}}
+                    <div class="mb-3">
+                        <label for="tag_form_name">Nom</label>
+                        <div class="text-danger">{{form_errors(form.name)}}</div>
+                        {{form_widget(form.name, {'attr': {'class':'form-control'}})}}
+                    </div>
+                    <div class="mb-3">
+                        <input formnovalidate type="submit" class="btn btn-primary"  value="Valider">
+                    </div>
+                {{form_end(form)}}
+            </div>
+        </div>
+    </div>
+{% endblock %}
