@@ -21,16 +21,27 @@
 			</ul>
             <ul class="navbar-nav ms-auto">
 				{% if app.user %}
-				<li class="nav-item">
-					<a class=" btn btn-outline-primary mx-jd" href="{{ path('app.logout') }}">Déconnexion</a>
-				</li>
+					{% if "ROLE_ADMIN" in app.user.roles %}
+						<li class="nav-item">
+							<a class=" my-2 my-lg-0 btn btn-outline-primary mx-lg-2 shadow" href="{{ path('admin.home.dashboard') }}">Espace admin</a>
+						</li>
+					{% endif %}
+					{% if "ROLE_USER" in app.user.roles %}
+						<li class="nav-item">
+							<a class=" my-2 my-lg-0 btn btn-outline-primary mx-lg-2 shadow" href=>Espace privé</a>
+						</li>
+					{% endif %}
+					
+					<li class="nav-item">
+						<a class=" my-2 my-lg-0 btn btn-outline-primary mx-lg-2 shadow" href="{{ path('app.logout') }}">Déconnexion</a>
+					</li>
 				{% else %}
-				<li class="nav-item">
-					<a class=" btn btn-outline-primary mx-jd" href="{{ path('visitor.authentication.login') }}">Connexion</a>
-				</li>
-				<li class="nav-item">
-					<a class=" btn btn-primary mx-jd" href="{{ path('visitor.registration.register') }}">Inscription</a>
-				</li>					
+					<li class="nav-item">
+						<a class=" my-2 my-lg-0 btn btn-outline-primary mx-lg-2" href="{{ path('visitor.authentication.login') }}">Connexion</a>
+					</li>
+					<li class="nav-item">
+						<a class=" my-2 my-lg-0 btn btn-primary mx-lg-2" href="{{ path('visitor.registration.register') }}">Inscription</a>
+					</li>					
 				{% endif %}
 				
 			</ul>

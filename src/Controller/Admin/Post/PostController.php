@@ -191,27 +191,31 @@ class PostController extends AbstractController
     ) : Response
     {
         $csrfTokenValue = $request->request->get('csrf_token');
+
+
+        if ( ! $this->isCsrfTokenValid("multiple_delete_posts_token_key", $csrfTokenValue) ) 
+        {
+            return $this->json(
+                ['status' => false, "message" => "Un problème est suvenu, veuillez réessayer." ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         $ids = $request->request->get('ids');
 
         $ids = explode(",", $ids);
 
-        if ( $this->isCsrfTokenValid("multiple_delete_posts_token_key", $csrfTokenValue) ) 
+        foreach ($ids as $id) 
         {
-            foreach ($ids as $id) 
-            {
-                $post = $postRepository->findOneBy(['id' => $id]);
+            $post = $postRepository->findOneBy(['id' => $id]);
 
-                $em->remove($post);
-                $em->flush();
-            }
 
-            return $this->json(['status' => true, "message" => "La suppression multiple a été effectué avec succès." ]);
+            $em->remove($post);
+            $em->flush();
         }
 
         return $this->json(
-            ['status' => false, "message" => "Un problème est suvenu, veuillez réessayer."],
-            403
-        );
+            ['status' => true, "message" => "La suppression multiple a été effectué avec succès."]);
         
         // return new JsonResponse();
 
