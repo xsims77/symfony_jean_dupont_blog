@@ -49,10 +49,16 @@
                         <div class="text-danger">{{ form_errors(form.tags) }}</div>
                         {{form_widget(form.tags, {'attr': {'class': 'form-control'}})}}
                     </div>
-                    <div class="mb-3">
-                        <label for="post_form_imageFile">Image</label>
-                        <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
-                        {{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="post_form_imageFile">Image</label>
+                            <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
+                            {{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}                        
+                        </div>
+                        <div class="col-md-6">
+                            <div class="preview-image-title"></div>
+                            <div class="preview-image-content"></div>
+                        </div>
                     </div>
                     <div class="mb-3">
                     <div class="text-danger">{{ form_errors(form.content) }}</div>
@@ -66,4 +72,31 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('#post_form_tags').select2();
+
+            $('#post_form_imageFile_file').on('change', function(){
+                let file = $(this).get(0).files[0];
+
+                if (file)
+                {
+                    let fileReader = new FileReader();
+
+                    fileReader.onload = function() {
+                        let p = `<p>Aperçu de l'image</p>`;
+                        let img = `<img src="${fileReader.result}" class="img-fluid" alt="Prévisulaisation de l'image">`;
+    
+                        $('.preview-image-title').html(p)
+                        $('.preview-image-content').html(img);
+                    };
+                    fileReader.readAsDataURL(file);
+                }
+
+            });
+        });
+    </script>
 {% endblock %}

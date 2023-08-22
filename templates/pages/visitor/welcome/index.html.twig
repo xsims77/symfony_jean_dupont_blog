@@ -3,5 +3,43 @@
 {% block title %} - Le blog sur la santé{% endblock %}
 
 {% block main %}
-    <h1 class="text-primary">Hello World!</h1>
+    <main>
+        <header>
+        <div class="container mt-5 text-center">
+            <div class="row">
+                <div class="col-md-5 order-md-2 my-2">
+                    <img src="{{asset('images/visitor/welcome/hero/hero.png')}}" class="img-fluid" alt="Photo de présentation de Jean Dupont">
+                </div>
+                <div class="col-md-7 order-md-1 my-2 d-flex flex-column justify-content-evenly align-content-center ">
+                    <div>
+                        <h1>Bienvenue sur mon blog</h1>
+                    </div>
+                        <p>Je m'appelle Jean Dupont.</p>
+                        <p>Permettez-moi de vous faire découvrir les clés d'une vie saine et épanouissante.</p>
+                    <div>
+                    </div>
+                    <div>
+                        <a class="btn btn-primary mt-5" href="">Lire les articles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </header>
+
+        <section id="about-me" class="my-3 py-3 bg-light">
+            <h2 class="text-center my-3 display-5">Qui suis-je</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
+                        <img src="{{asset('images/visitor/welcome/about_me/about_me.png')}}" class="img-fluid" alt="Présentation de Jean Dupont">
+                    </div>
+                    <div class="col-md-6 d-flex flex-column justify-content-evenly align-items-center">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati impedit nesciunt rerum ab consequuntur laborum dignissimos quidem delectus! Nihil quasi ab enim voluptates quae, laboriosam blanditiis sequi saepe, debitis consectetur a inventore. Odit id quidem nihil dicta eius veritatis.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, facilis. Quod totam accusantium minima suscipit voluptas, doloremque et illo quisquam beatae quae eos at, similique exercitationem! Fuga nostrum et excepturi? Fugiat perferendis</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, facilis. Quod totam accusantium minima suscipit voluptas, doloremque et illo quisquam beatae quae eos at, similique exercitationem! Fuga nostrum et excepturi? Fugiat perferendis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}
