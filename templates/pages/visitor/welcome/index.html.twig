@@ -14,12 +14,12 @@
                         <div>
                             <h1>Bienvenue sur mon blog</h1>
                         </div>
+                        <div>
                             <p>Je m'appelle Jean Dupont.</p>
                             <p>Permettez-moi de vous faire découvrir les clés d'une vie saine et épanouissante.</p>
-                        <div>
                         </div>
                         <div>
-                            <a class="btn btn-lg btn-primary" href="">Lire les articles</a>
+                            <a class="btn btn-lg btn-primary" href="{{path('visitor.blog.index')}}">Lire les articles</a>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
         </section>
 
         {% if posts is not empty %}
-            <section class="my-3 py-3">
+            <section id="last-posts" class="my-3 py-3">
                 <h1 class="text-center my-3 display-5">Mes derniers articles</h1>
 
                 <div class="container mt-5">

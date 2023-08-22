@@ -1,0 +1,14 @@
+.cursor-pointer
+{
+    cursor: pointer;
+}
+
+.cursor-pointer:hover
+{
+    text-decoration: underline;
+}
+
+.jd-active
+{
+    color: $jd_danger !important;
+}

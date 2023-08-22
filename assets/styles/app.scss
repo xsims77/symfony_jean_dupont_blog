@@ -1,5 +1,6 @@
 // Abstract
 @import "./abstracts/variables";
+@import "./abstracts/classes";
 
 
 // the ~ allows you to reference things in node_modules
@@ -9,3 +10,10 @@
 // Base
 @import "./base/typography";
 @import "./base/classes";
+
+// components
+@import "./components/header";
+
+
+// theme
+@import "./themes/base_visitor";
