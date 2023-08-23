@@ -1,16 +1,73 @@
 {% extends "themes/base_visitor.html.twig" %}
 
-{% block title %} - Le blog sur la santé - {{post.title}} {% endblock %}
+{% block title %}
+	- Le blog sur la santé -
+	{{post.title}}
+{% endblock %}
 
 {% block main %}
-    <main>
-        <div class="jd-container my-5">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{path('visitor.blog.index')}}">Liste des articles</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{post.title|u.truncate('50', '...')}}</li>
-                </ol>
-            </nav>
-        </div>
-    </main>
+	<main>
+		<div class="jd-container my-5">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{path('visitor.blog.index')}}">Liste des articles</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">{{post.title|u.truncate('50', '...')}}</li>
+				</ol>
+			</nav>
+
+			<div class="text-center">
+				<h1 class="display-5 my-3">{{post.title}}</h1>
+				{% if post.image %}
+					<img src="{{ vich_uploader_asset(post, 'imageFile') }}" class="img-fluid w-100 h-100" alt="{{ post.title }}">
+				{% else %}
+					<img src="{{asset('images/visitor/blog/image_default.jpg')}}" class="w-100 h-100 rounded" alt="Pas d'image dans cette article">
+				{% endif %}
+			</div>
+			<div class="text-center my-3">
+				<p>
+					<small>Publié
+						{{post.publishedAt | ago}}
+						par Jean Dupont</small>
+				</p>
+			</div>
+			<article class="my-5">
+				{{post.content|raw}}
+			</article>
+
+            {% if app.user %}
+                <div class="my-3" id="comment-box">
+                    {{form_start(form, {'action': path('visitor.blog.post.show', {'id':post.id, 'slug':post.slug})~"#create-comment-box"})}}
+                    <div class="mb-3">
+                        <div class="text-danger">{{form_errors(form.content)}}</div>
+                        {{form_widget(form.content, {'attr': {'class':'form-control', 'placeholder': 'Laissez un commentaire...', 'rows': 4}}) }}
+                    </div>
+                    <div>
+                        <input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
+                    </div>
+                    {{form_end(form)}}
+                </div>
+            {% else %}
+                <div class="text-center">
+                <p>Veuillez vous connecter pour laisser un commentaire.</p> 
+                <a class="btn btn-outline-primary" href="{{path('visitor.authentication.login')}}">Se connecter</a> 
+                <a class="btn btn-primary" href="{{path('visitor.registration.register')}}">S'inscrire</a>
+                </div>
+            {% endif %}
+            
+
+
+			<div class="my-3">
+                {% for comment in post.comments|reverse %}
+                    <div>
+                        <div class="alert alert-warning" role="alert">
+                            <p><strong>{{comment.user.firstName}} {{comment.user.lastName}}</strong> {{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge text-bg-success">Auteur</span>' : ''}} <small>{{ comment.createdAt|ago}}</small></p>
+                            <p>{{comment.content}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
+	</main>
 {% endblock %}
