@@ -4,46 +4,83 @@
 
 {% block main %}
     <main>
-        {{ include('components/header.html.twig', {title: 'Liste des articles'}) }}
-
-        <div class="container">
-            <div class="row ">
+        {{ include('components/header_visitor.html.twig', {title: 'Liste des articles'}) }}
+        <div class="container mt-5">
+            <div class="row text-center">
                 <div class="col-md-6">
-                    <div class="dropdown">
+                    {# catégorie #}
+                    <div class="dropdown-center">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
+                            Les catégories
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            {% if categories is empty %}
+                                <li><a class="dropdown-item text-decoration-none" href="#">Aucune catégorie</a></li>
+                            {% else %}
+                                {% for categorie in categories %}
+                                    <li><a class="dropdown-item text-decoration-none" href="#">{{categorie.name}} ({{categorie.posts|length}})</a></li>
+                                {% endfor %}                                
+                            {% endif %}                            
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 r">
-                    <div class="input-group mb-3 d-flex justify-content-center align-items-cente">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Les tags</button>
+
+                <div class="col-md-6 my-3">
+                    {# tag #}
+                    <div class="dropdown-center">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Les tags
+                        </button>
                         <ul class="dropdown-menu">
-                            {% for tag in tags %}
-                                <li>{{tag.name}}</li>
-                            {% endfor %}
+                            {% if tags is empty %}
+                                <li><a class="dropdown-item" href="#">Aucun tag</a></li>
+                            {% else %}
+                                {% for tag in tags %}
+                                    <li><a class="dropdown-item text-decoration-none" href="#">{{tag.name}} ({{tag.posts|length}})</a></li>
+                                {% endfor %}                                   
+                            {% endif %}
+                            
                         </ul>
                     </div>
                 </div>
-
             </div>
-
         </div>
-        <div class="dropdown">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown link
-  </a>
 
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div>
+        <section>
+            <div class="container my-5">
+                    {% if posts is empty %}
+                        <p class="text-center mt-5">Aucun article publié pour l'instant</p>
+                    {% else %}
+                        <div class="card-group d-flex flex-column justify-content-center align-items-center">
+                            {% for post in posts %}
+                            <div class="card w-75 border rounded shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 order-md-1 d-flex justify-content-center align-items-center ">
+                                            {% if post.image %}
+                                                {# 1ere possibilité #}
+                                                {# <img src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('visitor_blog_post_thumbnail') }}" class="w-100 h-100 rounded" alt="{{ post.title }}"> #}
+                                                <img src="{{ vich_uploader_asset(post, 'imageFile') }}" class="w-100 h-100 rounded" alt="{{ post.title }}"> 
+                                            {% else %}
+                                                <img src="{{asset('images/visitor/blog/image_default.jpg')}}" class="w-100 h-100 rounded" alt="Pas d'image dans cette article">                                          
+                                            {% endif %}
+                                            
+                                        </div>
+                                        <div class="col-md-6 order-md-2">
+                                            <h5 class="card-title">{{post.title}}</h5>
+                                            <p class="card-text"><small class="text-body-secondary">Publié {{post.publishedAt|ago}}</small></p>
+                                            <p class="card-text">{{post.content|striptags|u.truncate(70, '...')|raw}}</p>
+                                            <p><a href="{{path('visitor.blog.post.show', {'id':post.id, 'slug':post.slug})}}" class="btn btn-sm btn-primary">Lire cet article</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                       
+                            <hr>
+                            {% endfor %}
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </section>
     </main>
 {% endblock %}

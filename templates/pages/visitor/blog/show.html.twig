@@ -1,0 +1,16 @@
+{% extends "themes/base_visitor.html.twig" %}
+
+{% block title %} - Le blog sur la santé - {{post.title}} {% endblock %}
+
+{% block main %}
+    <main>
+        <div class="jd-container my-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{path('visitor.blog.index')}}">Liste des articles</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{post.title|u.truncate('50', '...')}}</li>
+                </ol>
+            </nav>
+        </div>
+    </main>
+{% endblock %}

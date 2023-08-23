@@ -12,3 +12,20 @@
 {
     color: $jd_danger !important;
 }
+
+.jd-container
+{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media screen and  (min-width: 768px) 
+    {
+        & 
+        {
+            width: 50%;
+        }
+
+    }
+
+}
