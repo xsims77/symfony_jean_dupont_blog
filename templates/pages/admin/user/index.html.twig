@@ -1,0 +1,65 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Le blog de Jean Dupont - Admin - Liste des utilisateurs{% endblock %} 
+
+{% block description %}Le blog de Jean Dupont - Admin - Liste des utilissateurs{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Liste des Utilisateurs</h1>
+
+    <div class="table-responsive">
+        <table class="table table-stripped table-bordered table-hover" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Compte vérifié ?</th>
+                    <th>Roles</th>
+                    <th>Date de création</th>
+                    <th>Date de modification</th>
+                    <th>Date de vérification</th>
+                    <th>option</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.isVerified ? 'Oui' : 'Pas encore'}}</td>
+                        <td class="d-flex flex-column">
+                            {% for role in user.roles %}
+                                {% if "ROLE_SUPER_ADMIN" == role %}
+                                <span class="badge rounded-pill text-bg-primary">{{role}}</span>
+                                {% elseif "ROLE_ADMIN" == role %}
+                                <span class="badge rounded-pill text-bg-secondary">{{role}}</span>  
+                                {% elseif "ROLE_USER" == role%}                                                                     
+                                <span class="badge rounded-pill text-bg-dark">{{role}}</span>                                    
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{user.createdAt|format_datetime(locale="fr")}}</td>
+                        <td>{{user.updatedAt|format_datetime(locale="fr")}}</td>
+                        <td>
+                            {% if user.isVerified is not empty %}
+                                <span>{{user.verifiedAt|format_datetime(locale="fr")}}</span>
+                            {% else %}
+                                <span>---</span>
+                            {% endif %}
+                            
+                        </td>
+                        <td>
+                            <a title="Modifier rôle" href=""><i class="fa-solid fa-pen-to-square mx-2"></i></a>
+                            <a title="Supprimer l'utilisateur" href=""><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
