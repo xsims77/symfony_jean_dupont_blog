@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -14,21 +17,67 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank(message:"Le prénom est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le prénom ne doit pas dépasser {{ limit }} caractères.',
+    )]
+    #[Assert\Regex(
+        pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
+        match: true,
+        message: 'Le prénom doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+
+    #[Assert\NotBlank(message:"Le nom est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.',
+    )]
+    #[Assert\Regex(
+        pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
+        match: true,
+        message: 'Le nom doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+
+
+    #[Assert\NotBlank(message:"L'email est obligatoire")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'L\'email ne doit pas dépasser {{ limit }} caractères',
+    )]
+    #[Assert\Email(
+        message: 'l\'email {{ value }} n\'est pas valide.',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+
+    #[Assert\Regex(
+        pattern: "/^[0-9\-\+\s\(\)]{6,30}$/",
+        match: true,
+        message: "Le numéro de téléphone n'est pas valide."
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
+
+    #[Assert\NotBlank(message:"Le message est obligatoire")]
+    #[Assert\Length(
+        max: 1000,
+        maxMessage: 'Le message ne doit pas dépasser {{ limit }} caractères',
+    )]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
+
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
