@@ -2,10 +2,15 @@
 
 namespace App\Controller\Admin\User;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\EditUserRolesFormType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class UserController extends AbstractController
 {
@@ -15,5 +20,58 @@ class UserController extends AbstractController
         return $this->render('pages/admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
+    }
+
+    #[Route('/admin/user/{id<\d+>}/edit_roles', name: 'admin.user.edit_roles', methods:['GET', 'PUT'])]
+    public function editRoles(User $user, Request $request, EntityManagerInterface $em) : Response
+    {
+        $form = $this->createForm(EditUserRolesFormType::class, $user, [
+            "method"    => "PUT"
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $em->persist($user);
+            $em->flush();
+                
+            $this->addFlash('success', "Les rôles de" . $user->getFirstName() ." ". $user->getLastName() ."ont été modifiés.");
+            return $this->redirectToRoute('admin.user.index');
+        }
+
+        return $this->render("pages/admin/user/edit_roles.html.twig", [
+            "user" => $user,
+            "form" => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin/user/{id<\d+>}/delete', name: 'admin.user.delete', methods:['DELETE'])]
+    public function delete(User $user, Request $request, EntityManagerInterface $em) : Response
+    {
+        if ( $this->isCsrfTokenValid('delete_user_'.$user->getId(), $request->request->get('csrf_token')) ) 
+        {
+            $posts = $user->getPosts();
+            // $comments = $user->getComments();
+
+            foreach ($posts as $post)
+            {
+                $post->setUser(null);
+            }
+
+            // foreach ($comments as $comment) 
+            // {
+            //     $comment->setUser(null);
+            // }
+
+            $this->container->get('security.token_storage')->setToken(null);
+            
+            $em->remove($user);
+            $em->flush();
+
+            $this->addFlash('success', "L'utilisateur a été supprimé correctement.");
+
+        }
+        return $this->redirectToRoute('admin.user.index');
     }
 }

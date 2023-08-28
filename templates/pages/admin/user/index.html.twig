@@ -7,6 +7,13 @@
 {% block main %}
     <h1 class="text-center my-3 display-5">Liste des Utilisateurs</h1>
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>        
+    {% endfor %}
+
     <div class="table-responsive">
         <table class="table table-stripped table-bordered table-hover" id="table">
             <thead class="table-dark">
@@ -31,14 +38,14 @@
                         <td>{{user.lastName}}</td>
                         <td>{{user.email}}</td>
                         <td>{{user.isVerified ? 'Oui' : 'Pas encore'}}</td>
-                        <td class="d-flex flex-column">
+                        <td>
                             {% for role in user.roles %}
                                 {% if "ROLE_SUPER_ADMIN" == role %}
                                 <span class="badge rounded-pill text-bg-primary">{{role}}</span>
                                 {% elseif "ROLE_ADMIN" == role %}
-                                <span class="badge rounded-pill text-bg-secondary">{{role}}</span>  
-                                {% elseif "ROLE_USER" == role%}                                                                     
-                                <span class="badge rounded-pill text-bg-dark">{{role}}</span>                                    
+                                <span class="badge rounded-pill text-bg-secondary">{{role}}</span>
+                                {% elseif "ROLE_USER" == role %}
+                                <span class="badge rounded-pill text-bg-dark">{{role}}</span>
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -53,8 +60,17 @@
                             
                         </td>
                         <td>
-                            <a title="Modifier rôle" href=""><i class="fa-solid fa-pen-to-square mx-2"></i></a>
-                            <a title="Supprimer l'utilisateur" href=""><i class="fa-solid fa-trash-can"></i></a>
+                            {% if "ROLE_SUPER_ADMIN" not in user.roles %}
+                            {% if user.isVerified %}
+                            <a class="text-secondary m-2" title="Modifier rôle" href="{{path('admin.user.edit_roles',{'id':user.id})}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            {% endif %}                           
+                            <a onclick="event.preventDefault(); confirm('Confirmer la suppression du compte ?') && document.querySelector('#delete_user_{{user.id}}').submit() " class="text-danger m-2" title="Supprimer l'utilisateur" href=""><i class="fa-solid fa-trash-can"></i></a> 
+                            <form action="{{path('admin.user.delete', {'id':user.id})}}" id="delete_user_{{user.id}}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token('delete_user_'~user.id)}}">
+                            </form>                          
+                            {% endif %}
+                            
                         </td>
                     </tr>
                 {% endfor %}
