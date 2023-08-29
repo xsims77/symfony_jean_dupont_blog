@@ -1,0 +1,33 @@
+{% extends "themes/base_user.html.twig" %}
+
+{% block title %}Jean Dupont - Espace utilisateur - Mon profil{% endblock %}
+
+{% block description %}Jean Dupont - Espace utilisateur - Mon profil{% endblock %}
+
+{% block main %}
+<main>
+    <h1 class="text-center my-3 display-5">Mon profil</h1>
+
+    	<div class="container mt-5">
+		<div class="row">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success text-center" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+			<div class="col-md-6 mx-auto">
+				<div class="card text-bg-secondary mb-3" style="max-width: 40rem;">
+					<div class="card-header">Mon Profil</div>
+					<div class="card-body">
+						<p class="card-text"><strong>Prénom</strong> : {{app.user.firstName}}</p>
+						<p class="card-text"><strong>Nom</strong> : {{app.user.lastName}}</p>
+						<p class="card-text"><strong>Email</strong> : {{app.user.email}}</p>
+                        <a href="" class="m-2 btn btn-primary">Modifier le profil</a>
+                        <a href="" class="m-2 btn btn-primary">Modifier le mot de passe</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

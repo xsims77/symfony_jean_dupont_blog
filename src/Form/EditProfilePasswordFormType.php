@@ -2,21 +2,31 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
-class ChangePasswordFormType extends AbstractType
+class EditProfilePasswordFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('currentPassword', PasswordType::class, [
+                'mapped'    => false,
+                'constraints'   => [
+                    new UserPassword([
+                        "message"   => "Mot de passe actuel incorrect. Veuillez recommencer."
+                    ])
+                ]
+            ])
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
                     'attr' => [
@@ -36,7 +46,7 @@ class ChangePasswordFormType extends AbstractType
                             'maxMessage' => 'Le nouveau mot de passe doit contenir au maximum {{ limit }} caractères',
                         ]),
                         new Regex([
-                            'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{12,255}$/",
+                            'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{11,255}$/",
                             'match' => true,
                             'message' => "Le mot de passe doit contenir au moins une lettres minuscule, majuscule, un chiffre et un caractère spécial"
                         ])
@@ -45,13 +55,16 @@ class ChangePasswordFormType extends AbstractType
                 'invalid_message' => 'Le mot de passe doit être identique à sa confirmation.',
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'mapped' => false,
+                // 'mapped' => false,
             ])
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            // 'data_class' => User::class,
+        ]);
     }
 }

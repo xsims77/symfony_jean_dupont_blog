@@ -66,10 +66,10 @@ class UserController extends AbstractController
 
             $this->container->get('security.token_storage')->setToken(null);
             
+            $this->addFlash('success', "L'utilisateur a été supprimé correctement.");
+            
             $em->remove($user);
             $em->flush();
-
-            $this->addFlash('success', "L'utilisateur a été supprimé correctement.");
 
         }
         return $this->redirectToRoute('admin.user.index');

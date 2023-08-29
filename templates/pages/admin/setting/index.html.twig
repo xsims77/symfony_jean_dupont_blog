@@ -1,0 +1,31 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Le blog de Jean Dupont - Admin - Les paramètres{% endblock %} 
+
+{% block description %}Le blog de Jean Dupont - Admin - Les paramètres{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Les paramètres</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card border-primary mb-3 text-center" style="max-width: 28rem;">
+                <div class="card-header">Paramètres</div>
+                <div class="card-body text-primary">
+                    <p class="card-text"><strong>Email</strong> : {{setting.email}}</p>
+                    <p class="card-text"><strong>Téléphone</strong> : {{setting.phone ?? 'Non renseigné'}}</p>
+                    <a href="{{path('admin.setting.edit', {'id': setting.id})}}" class="btn btn-primary">Modifier les paramètres</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

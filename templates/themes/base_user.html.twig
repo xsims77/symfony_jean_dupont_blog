@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
+
+        
+
         {# Encodage standars des caractères du web #}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +28,9 @@
         {# font-awesome #}
         {% block fontAwesome %}{% endblock %}
 
+        {# No SEO for admin #}
+        <meta name="robots" content="noindex, nofollow">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -41,14 +47,14 @@
     <body class="jd-body">
 
         {# Navbar #}
-        {% include "layouts/navbar/navbar_visitor.html.twig" %}
+        {% include "layouts/navbar/navbar_user.html.twig" %}
 
 
         {# The specific content for each page #}
         {% block main %}{% endblock %}
 
         {# Footer #}
-        {% include "layouts/footer/footer_visitor.html.twig" %}
+        {% include "layouts/footer/footer_user.html.twig" %}
     </body>
 </html>
 

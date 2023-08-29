@@ -57,17 +57,32 @@
             {% endif %}
             
 
+			<div class="my-5">
+                {% set count = 0 %}
+                {% if post.comments is not empty %}
+                    {% for comment in post.comments %}
+                        {% if comment.isActivated %}
+                            {% set count = count + 1 %}
+                        {% endif %}
+                    {% endfor %}
 
-			<div class="my-3">
-                {% for comment in post.comments|reverse %}
-                    <div>
-                        <div class="alert alert-warning" role="alert">
-                            <p><strong>{{comment.user.firstName}} {{comment.user.lastName}}</strong> {{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge text-bg-success">Auteur</span>' : ''}} <small>{{ comment.createdAt|ago}}</small></p>
-                            <p>{{comment.content}}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-			</div>
+                    {% if count <= 0 %}
+                        <p class="text-center mt-3">Aucun commentaire laissé pour cet article</p>
+                    {% else %}
+                        {% for comment in post.comments|reverse %}
+                            {% if comment.isActivated %}
+                                <div class="m-3 p-2 border shadow">
+                                    <p><strong>{{comment.user.firstName}} {{comment.user.lastName}}</strong> {{ 'ROLE_SUPER_ADMIN' in comment.user.roles ? '<span class="badge text-bg-success">Auteur</span>' : ''}} <small>({{comment.createdAt|ago}})</small></p>
+                                    <p>{{comment.content|nl2br}}</p>
+                                </div>
+                            {% endif %}
+                            <hr>
+                        {% endfor %}
+                    {% endif %}
+                    
+                {% endif %}
+                
+            </div>
 		</div>
 	</main>
 {% endblock %}
