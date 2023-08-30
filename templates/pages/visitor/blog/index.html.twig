@@ -17,8 +17,8 @@
                             {% if categories is empty %}
                                 <li><a class="dropdown-item text-decoration-none" href="#">Aucune catégorie</a></li>
                             {% else %}
-                                {% for categorie in categories %}
-                                    <li><a class="dropdown-item text-decoration-none" href="#">{{categorie.name}} ({{categorie.posts|length}})</a></li>
+                                {% for category in categories %}
+                                    <li><a class="dropdown-item text-decoration-none" href="{{path('visitor.blog.posts.filter_by_category', {'slug': category.slug})}}">{{category.name}} ({{category.getPublishedPosts|length}})</a></li>
                                 {% endfor %}                                
                             {% endif %}                            
                         </ul>
@@ -36,7 +36,7 @@
                                 <li><a class="dropdown-item" href="#">Aucun tag</a></li>
                             {% else %}
                                 {% for tag in tags %}
-                                    <li><a class="dropdown-item text-decoration-none" href="#">{{tag.name}} ({{tag.posts|length}})</a></li>
+                                    <li><a class="dropdown-item text-decoration-none" href="#">{{tag.name}} ({{tag.getPublishedPosts|length}})</a></li>
                                 {% endfor %}                                   
                             {% endif %}
                             
