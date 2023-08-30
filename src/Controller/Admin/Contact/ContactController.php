@@ -47,7 +47,7 @@ class ContactController extends AbstractController
         if ( ! $this->isCsrfTokenValid("multiple_delete_contacts_token_key", $csrfTokenValue) ) 
         {
             return $this->json(
-                ['status' => false, "message" => "Un problème est suvenu, veuillez réessayer." ],
+                ['status' => false, "message" => "Un problème est survenu, veuillez réessayer." ],
                 Response::HTTP_BAD_REQUEST
             );
         }

@@ -22,8 +22,19 @@
 						<p class="card-text"><strong>Prénom</strong> : {{app.user.firstName}}</p>
 						<p class="card-text"><strong>Nom</strong> : {{app.user.lastName}}</p>
 						<p class="card-text"><strong>Email</strong> : {{app.user.email}}</p>
-                        <a href="" class="m-2 btn btn-primary">Modifier le profil</a>
-                        <a href="" class="m-2 btn btn-primary">Modifier le mot de passe</a>
+						<hr>
+						<div class="d-flex">
+                        <p><a href="{{path('user.profile.edit')}}" class="mx-1 btn btn-primary">Modifier le profil</a></p>
+                        <p><a href="{{path('user.profile.edit_password')}}" class="mx-1 btn btn-success">Modifier le mot de passe</a></p>
+						{% if "ROLE_SUPER_ADMIN" not in app.user.roles %}
+							<p><a onclick="event.preventDefault(); confirm('Voulez-vous vraiment supprimer votre compte ?') && document.querySelector('#profile-delete-form').submit();" href="#" class="mx-1 btn btn-danger">Supprimer mon compte</a>
+							<form action="{{path('user.profile.delete')}}" id="profile-delete-form" method="post">
+								<input type="hidden" name="_method" value="DELETE">
+								<input type="hidden" name="csrf_token" value="{{csrf_token('profile-delete')}}">
+							</form>
+							</p>
+						{% endif %}
+						</div>
 					</div>
 				</div>
 			</div>
