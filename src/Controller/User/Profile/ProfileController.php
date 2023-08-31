@@ -89,6 +89,8 @@ class ProfileController extends AbstractController
             $user = $this->getUser();
             
             $posts = $user->getPosts();
+
+
             
             foreach ($posts as $post) 
             {
