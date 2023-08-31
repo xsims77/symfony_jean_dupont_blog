@@ -86,12 +86,16 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostLike::class)]
+    private Collection $postLikes;
+
 
     public function __construct()
     {
         $this->isPublished = false;
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->postLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -297,5 +301,56 @@ class Post
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getPostLikes(): Collection
+    {
+        return $this->postLikes;
+    }
+
+    public function addPostLike(PostLike $postLike): static
+    {
+        if (!$this->postLikes->contains($postLike)) {
+            $this->postLikes->add($postLike);
+            $postLike->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostLike(PostLike $postLike): static
+    {
+        if ($this->postLikes->removeElement($postLike)) {
+            // set the owning side to null (unless already changed)
+            if ($postLike->getPost() === $this) {
+                $postLike->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isLikedBy(User $user) : bool
+    {
+        // Récupérons tous les likes associés de cet article
+        $likes = $this->getPostLikes()->toArray();
+
+        // Parcourons le tableau des likes,
+        foreach ($likes as $like) 
+        {
+            // Si l'utilisateur associé à l'un des likes est le même que l'utilisateur connecté 
+            if ($like->getUser() == $user ) 
+            {
+                // C'est qu'il a déjà liké cet article
+                    return true;
+                
+            }
+        }
+        // Dans le cas contraire, c'est qu'il n'a pas encore liké cet article
+        return false;
+
     }
 }

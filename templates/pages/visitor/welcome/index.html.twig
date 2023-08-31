@@ -8,10 +8,10 @@
             <div class="container mt-5 text-center">
                 <div class="row">
                     <div class="col-md-5 order-md-2 my-2">
-                        <img src="{{asset('images/visitor/welcome/hero/hero.png')}}" class="img-fluid" alt="Photo de présentation de Jean Dupont">
+                        <img data-aos="flip-right" src="{{asset('images/visitor/welcome/hero/hero.png')}}" class="img-fluid" alt="Photo de présentation de Jean Dupont">
                     </div>
                     <div class="col-md-7 order-md-1 my-2 d-flex flex-column justify-content-evenly align-content-center ">
-                        <div>
+                        <div data-aos="fade-right">
                             <h1>Bienvenue sur mon blog</h1>
                         </div>
                         <div>
@@ -27,7 +27,7 @@
         </header>
 
         <section id="about-me" class="my-3 py-3 bg-light">
-            <h2 class="text-center my-3 display-5">Qui suis-je</h2>
+            <h2 data-aos="fade-up-right" class="text-center my-3 display-5">Qui suis-je</h2>
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -44,7 +44,7 @@
 
         {% if posts is not empty %}
             <section id="last-posts" class="my-3 py-3">
-                <h1 class="text-center my-3 display-5">Mes derniers articles</h1>
+                <h1 data-aos="fade-up-left" class="text-center my-3 display-5">Mes derniers articles</h1>
 
                 <div class="container mt-5">
                     <div class="card-group">
@@ -64,7 +64,7 @@
         {% endif %}
         
         <section class="my-3 py-5 bg-light text-center">
-            <a href="#" class="btn btn-lg btn-primary">Contactez-moi</a>
+            <a data-aos="flip-up" href="#" class="btn btn-lg btn-primary">Contactez-moi</a>
         </section>
 
     </main>

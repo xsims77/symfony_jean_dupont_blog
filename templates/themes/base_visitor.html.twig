@@ -32,6 +32,9 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
         
         {# My stylesheet #}
         {# <link rel="stylesheet" href="{{ asset('assets/styles/app.css') }}"> #}
@@ -51,6 +54,12 @@
 
         {# Footer #}
         {% include "layouts/footer/footer_visitor.html.twig" %}
+
+
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>AOS.init();</script>
+
+        {% block javascript %}{% endblock %}
     </body>
 </html>
 
