@@ -1,9 +1,83 @@
 {% extends "themes/base_admin.html.twig" %}
 
-{% block title %}le blog de Jean Dupont - Admin - Tableau de bord{% endblock %}
+{% block title %}le blog de Jean Dupont - Admin - Tableau de bord
+{% endblock %}
 
-{% block description %}le blog de Jean Dupont - Admin - Tableau de bord{% endblock %}
+{% block description %}le blog de Jean Dupont - Admin - Tableau de bord
+{% endblock %}
 
 {% block main %}
-    <h1 class="text-center my-3 display-5">Hello {{app.user.firstName}} {{app.user.lastName}}</h1>
+	<h1 class="text-center my-3 display-5">Hello
+		{{app.user.firstName}}
+		{{app.user.lastName}}</h1>
+
+	<div class="container my-5">
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100"  >
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les catégories</strong></h5>
+                        <hr>
+						<a href="{{path('admin.category.index')}}" class="btn btn-outline-info">{{categories|length}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100"  >
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les articles</strong></h5>
+                        <hr>
+						<a href="{{path('admin.post.index')}}" class="btn btn-outline-info">{{posts|length}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100"  >
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les tags</strong></h5>
+                        <hr>
+						<a href="{{path('admin.tag.index')}}" class="btn btn-outline-info">{{tags|length}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les commentaires</strong></h5>
+                        <hr>
+						<a href="{{path('admin.comment.index')}}" class="btn btn-outline-info">{{comments|length}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="row d-flex justify-content-center align-items-center">
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les utilisateurs</strong></h5>
+                        <hr>
+						<a href="{{path('admin.user.index')}}" class="btn btn-outline-info">{{users|length}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les contacts</strong></h5>
+                        <hr>
+						<a href="{{path('admin.contact.index')}}" class="btn btn-outline-info">{{contacts|length}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mt-3">
+				<div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Les likes</strong></h5>
+                        <hr>
+						<a href="#" class="btn btn-outline-info">{{postLikes|length}}</a>
+					</div>
+				</div>
+			</div>
+        </div>
+
 {% endblock %}

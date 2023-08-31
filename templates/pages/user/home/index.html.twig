@@ -2,4 +2,27 @@
 
 {% block main %}
     <h1 class="text-center my-3 display-5">Hello {{app.user.firstName}} {{app.user.lastName}}</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Nombre total de commentaires</strong></h5>
+                        <hr>
+						<p>{{app.user.comments|length}}</p>
+					</div>
+				</div>
+            </div>
+            <div class="col-md-6">
+                <div class="card hover shadow bg-light w-100 h-100">
+					<div class="card-body">
+						<h5 class="card-title"><strong>Nombre total de likes</strong></h5>
+                        <hr>
+						<p>{{postsLikes|length}}</p>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
